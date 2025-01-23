@@ -220,17 +220,6 @@ export function Footer() {
                 </div>
               </div>
 
-              <div className="flex gap-4">
-                {["Facebook", "Twitter", "Instagram"].map((social) => (
-                  <Link
-                    key={social}
-                    href="#"
-                    className="text-xs md:text-sm text-gray-500 hover:text-gray-900"
-                  >
-                    {social}
-                  </Link>
-                ))}
-              </div>
             </div>
           </div>
         </div>
