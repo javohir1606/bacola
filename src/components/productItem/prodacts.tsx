@@ -2,53 +2,79 @@
 
 import { productDataType } from "@/service/queryes";
 import React, { useState, useEffect } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Heart, Maximize2, Minus, Plus } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "@/redux/features/cartSlice";
 import { RootState } from "@/redux/store";
 import Link from "next/link";
 
-function NewProdact({ id, title, price, image }: productDataType) {
+const Prodacts = ({ id, title, price, image }: productDataType) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const itemInCart = cartItems.find((item) => item.id === id);
   const [isAdded, setIsAdded] = useState(false);
 
+  // Check localStorage on component mount
+  useEffect(() => {
+    const cartData = localStorage.getItem("bacola-cart");
+    if (cartData) {
+      const { items } = JSON.parse(cartData);
+      const existingItem = items.find((item: any) => item.id === id);
+      setIsAdded(!!existingItem);
+    }
+  }, [id]);
+
+  // Update state when cart changes
   useEffect(() => {
     if (itemInCart?.quantity === 0 || !itemInCart) {
       setIsAdded(false);
+      // Update localStorage
+      const cartData = localStorage.getItem("bacola-cart");
+      if (cartData) {
+        const cart = JSON.parse(cartData);
+        cart.items = cart.items.filter((item: any) => item.id !== id);
+        localStorage.setItem("bacola-cart", JSON.stringify(cart));
+      }
+    } else {
+      setIsAdded(true);
+      // Update localStorage
+      const cartData = localStorage.getItem("bacola-cart");
+      if (cartData) {
+        const cart = JSON.parse(cartData);
+        const existingItemIndex = cart.items.findIndex(
+          (item: any) => item.id === id
+        );
+        if (existingItemIndex >= 0) {
+          cart.items[existingItemIndex] = itemInCart;
+        } else {
+          cart.items.push(itemInCart);
+        }
+        localStorage.setItem("bacola-cart", JSON.stringify(cart));
+      }
     }
-  }, [itemInCart]);
+  }, [itemInCart, id]);
 
   const handleAddToCart = () => {
-    dispatch(addToCart({ id, title, price, image, quantity: 0 } as any));
+    dispatch(addToCart({ id, title, price, image, quantity: 0 }));
     setIsAdded(true);
   };
 
   const handleIncrement = () => {
-    dispatch(addToCart({ id, title, price, image, quantity: 0 } as any));
+    dispatch(addToCart({ id, title, price, image, quantity: 0 }));
   };
 
   const handleDecrement = () => {
     if (itemInCart?.quantity === 1) {
-      if (id !== undefined) {
-        dispatch(removeFromCart(id));
-      }
+      dispatch(removeFromCart(id));
       setIsAdded(false);
     } else {
-      if (id !== undefined) {
-        dispatch(removeFromCart(id));
-      }
+      dispatch(removeFromCart(id));
     }
   };
 
   return (
-    <div className="group bg-white shadow-lg rounded-lg p-5 flex flex-col gap-2 relative">
-      <div className="absolute top-0 left-0 bg-[#30b1d5] text-white text-xs font-semibold px-2 py-1 rounded">
-        29% OFF
-      </div>
-
+    <div className="group bg-white shadow-lg rounded-lg p-4 flex flex-col gap-2 hover:scale-105 transition-transform transform relative">
       <div className="absolute top-2 right-2 z-50 flex flex-col gap-2 transform transition-all duration-300 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0">
         <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-50">
           <Maximize2 className="w-4 h-4 text-gray-600" />
@@ -64,42 +90,25 @@ function NewProdact({ id, title, price, image }: productDataType) {
           alt={title}
           className="w-full h-48 object-contain rounded-md transition-transform duration-300 group-hover:scale-105"
         />
-        {/* <div className="absolute top-2 left-0 bg-[#00B853]/10 text-[#00B853] text-xs font-medium px-2 py-1 rounded">
-          ORGANIC
-        </div> */}
       </div>
 
-      <p className="text-green-500 text-xs font-medium">IN STOCK</p>
       <Link href={`/product/${id}`}>
-        <h3 className="text-gray-800 font-medium text-sm min-h-[40px] line-clamp-2 hover:text-blue-600">
+        <h3 className="text-gray-800 font-medium text-[15px] mb-2 hover:text-blue-600">
           {title}
         </h3>
       </Link>
-
-      <div className="flex items-center gap-1 mb-2">
-        {[...Array(5)].map((_, i) => (
-          <svg
-            key={i}
-            className="w-4 h-4 text-yellow-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-        ))}
-        <span className="text-xs text-gray-500 ml-1">1</span>
-      </div>
-
-      <div className="flex items-center gap-2 mb-4">
-        <p className="line-through text-sm text-gray-500">$20.00</p>
-        <p className="text-red-500 font-bold text-lg">${price}</p>
+      <p className="text-green-500 text-[12px]">IN STOCK</p>
+      <div className="flex items-center mb-4 gap-2">
+        <p className="line-through text-[15px] text-gray-500 font-medium">
+          $20.00
+        </p>
+        <p className="text-red-500 font-bold text-xl mr-2">${price}</p>
       </div>
 
       {!isAdded ? (
         <Button
           onClick={handleAddToCart}
-          variant="outline"
-          className="w-full text-white hover:text-white rounded-full bg-[#233a95] font-medium hover:bg-[#233a95]/90 transition-colors"
+          className="flex-1 bg-[#233a95] hover:bg-[#233a95]/90 text-white h-[45px] sm:h-[50px] rounded-lg px-4"
         >
           Add to cart
         </Button>
@@ -124,6 +133,6 @@ function NewProdact({ id, title, price, image }: productDataType) {
       )}
     </div>
   );
-}
+};
 
-export default NewProdact;
+export default Prodacts;

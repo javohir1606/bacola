@@ -6,14 +6,14 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import Banner from "@/components/banner";
+import Banner from "@/components/banner/banner";
 import Image from "next/image";
-import Prodacts from "@/components/prodacts";
+import Prodacts from "@/components/productItem/prodacts";
 import { CarouselWrapper } from "@/components/carusel/carusel";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import Countdown from "@/components/soat/soat";
-import NewProdact from "@/components/new-prodact";
+import NewProdact from "@/components/prodact/new-prodact";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 export interface ResponceTodoT {

@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import Korzinka from "../assets/icons/korzinka";
-import Sorch from "../assets/icons/sorch";
-import { Badge } from "./ui/badge";
-import Burger from "../assets/icons/burger";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import Korzinka from "../../assets/icons/korzinka";
+import Sorch from "../../assets/icons/sorch";
+import { Badge } from "../ui/badge";
+import Burger from "../../assets/icons/burger";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -31,7 +31,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SecureIcon } from "../assets/icons/secure-icon";
+import { SecureIcon } from "../../assets/icons/secure-icon";
 import ScrolIcon from "@/assets/icons/scrolIcon";
 
 const Header = () => {
