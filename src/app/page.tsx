@@ -16,7 +16,6 @@ import Countdown from "@/components/soat/soat";
 import NewProdact from "@/components/new-prodact";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
-
 export interface ResponceTodoT {
   title?: string;
   description: string;
@@ -38,7 +37,7 @@ export default async function Home() {
   return (
     <>
       <div className="max-w-[1200px] mx-auto w-full flex justify-end px-4 lg:px-0">
-      {/* <CarouselWrapper
+        {/* <CarouselWrapper
       opts={{
         loop: true,
       }}
@@ -76,7 +75,9 @@ export default async function Home() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span>only-from</span>
-                  <span className="text-3xl text-red-600 font-bold">$14.99</span>
+                  <span className="text-3xl text-red-600 font-bold">
+                    $14.99
+                  </span>
                 </div>
               </div>
             </div>
@@ -182,7 +183,7 @@ export default async function Home() {
             <div className="w-full lg:w-[85%] flex flex-col gap-3 my-7">
               <h4 className="text-xl font-bold">Trending Products</h4>
               <div className="p-4 border-2 rounded-lg">
-                {products?.results?.slice(0, 6)?.map((item) => (
+                {products?.results?.slice(6, 10)?.map((item) => (
                   <div className="flex items-center gap-3" key={item.id}>
                     <div>
                       <Image
@@ -294,10 +295,10 @@ export default async function Home() {
                   </span>
                 </div>
                 <div>
-                  <Progress 
-                    color="red" 
-                    value={100} 
-                    className="w-[150px] sm:w-[200px] md:w-[300px] lg:w-full" 
+                  <Progress
+                    color="red"
+                    value={100}
+                    className="w-[150px] sm:w-[200px] md:w-[300px] lg:w-full"
                   />
                 </div>
                 <div className="flex gap-2 my-2">
@@ -329,7 +330,7 @@ export default async function Home() {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {products?.results?.map((item) => (
+              {products?.results?.slice(0, 8).map((item) => (
                 <NewProdact key={item.id} {...item} />
               ))}
             </div>
