@@ -38,9 +38,6 @@ export default async function Home() {
     <>
       <div className="max-w-[1200px] mx-auto w-full flex justify-end px-4 lg:px-0">
         {/* <CarouselWrapper
-      opts={{
-        loop: true,
-      }}
       className="w-full max-w-[870px]"
       plugins={true}
     >
@@ -381,7 +378,36 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1200px] w-full"></div>
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="mx-auto max-w-[1200px] w-full">
+          <div className="flex flex-col lg:flex-row gap-3">
+            <div className="w-full lg:w-[100%]">
+              <div>
+                <h2 className="text-2xl font-bold">Best Sellers</h2>
+                <p className="text-[#9b9c9db7]">
+                  Do not miss the current offers until the end of March.
+                </p>
+              </div>
+              <CarouselWrapper className="w-full">
+                <CarouselContent className="-ml-2 md:-ml-4">
+                  {products?.results?.map((item) => (
+                    <CarouselItem
+                      key={item.id}
+                      className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                    >
+                      <Prodacts {...item} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div className="hidden md:block">
+                  <CarouselPrevious className="left-0" />
+                  <CarouselNext className="right-0" />
+                </div>
+              </CarouselWrapper>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
